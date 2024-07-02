@@ -67,15 +67,6 @@ async def serviсes_qu1(callback: types.CallbackQuery):
         document = FSInputFile(path=PATH_TO_ISK)
         await callback.answer()
         await callback.message.answer_document(document=document, caption=services_branch.get("3"), reply_markup=await success("three"))
-   
-   
 
-@user.callback_query(F.data.startswith('success_'))
-async def pay(callback: types.CallbackQuery):
-    answer = callback.data.split('_')[1]
-    if answer == 'one':
-        await order_consult(message=callback.message)
-        if ContentType.SUCCESSFUL_PAYMENT:
-            successful_payment()
 
 

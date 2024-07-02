@@ -1,19 +1,24 @@
-from aiogram import Router, Bot
+from aiogram import Router, Bot, F
 from aiogram import types
 from aiogram.types import LabeledPrice
+from aiogram.types import ContentType
 
 
-async def order_consult(message: types.Message):
-    await message.answer_invoice(
+kassa = Router()
+
+@kassa.callback_query(F.data =="success_one")
+async def order_consult(callback: types.CallbackQuery):
+    await callback.answer()
+    await callback.message.answer_invoice(
         title="Онлайн-консультация",
         description="Оплата услуги онлайн-консультирования с экспертом",
         payload="invoice-payload",
-        provider_token="381764678:TEST:88233",
+        provider_token="381764678:TEST:83397",
         currency="rub",
         prices=[
             LabeledPrice(
                 label="Онлайн-консультация",
-                amount=150000,
+                amount=100000,
             ),
         ],
         start_parameter="start-parameter",
@@ -24,23 +29,16 @@ async def order_consult(message: types.Message):
         need_name=True,
         need_phone_number=True,
         need_email=True,
-        need_shipping_address=False,
-        send_email_to_provider=False,
-        send_phone_number_to_provider=False,
-        is_flexible=False,
-        disable_notification=False,
-        protect_content=False,
-        reply_to_message_id=None,
-        allow_sending_without_reply=False,
-        reply_markup=None,
         request_timeout=15,
     )
     
 
-
-async def pre_checkout_query(pre_checkout: types.PreCheckoutQuery):
-    await pre_checkout.answer(ok=True)
+@kassa.pre_checkout_query(lambda query: True)
+async def pre_checkout_query(pre_checkout_query: types.PreCheckoutQuery, bot: Bot):
+    await bot.answer_pre_checkout_query(pre_checkout_query.id, ok=True)
     
+    
+@kassa.message(F.content_types == ContentType.SUCCESSFUL_PAYMENT)
 async def successful_payment(message: types.Message):
     msg = f"Спасибо! Оплата {message.successful_payment.total_amount // 100} {message.successful_payment.currency} прошла успешно!"
     await message.answer(msg)
