@@ -18,6 +18,7 @@ from config import PATH_TO_CONSULT, PATH_TO_ISK, PATH_TO_LETTER
 user = Router()
 
 @user.message(CommandStart())
+@user.callback_query(F.data == "to_main")
 async def start_cmd(message: types.Message):
     await message.answer(START, reply_markup=start_kb)
     

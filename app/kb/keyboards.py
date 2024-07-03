@@ -41,3 +41,7 @@ async def success(num):
     success.add(
         InlineKeyboardButton(text='Принимаю условия соглашения ✅', callback_data=f"success_{num}"))
     return success.adjust(1).as_markup()
+
+to_main = InlineKeyboardMarkup(
+    inline_keyboard=[[InlineKeyboardButton(text="На главную", callback_data="to_main")]]
+)

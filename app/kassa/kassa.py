@@ -3,6 +3,8 @@ from aiogram import types
 from aiogram.types import LabeledPrice
 from aiogram.types import ContentType
 
+from app.kb.reply import form_btn
+
 
 kassa = Router()
 
@@ -94,4 +96,5 @@ async def pre_checkout_query(pre_checkout_query: types.PreCheckoutQuery, bot: Bo
     
 @kassa.message(F.content_type == ContentType.SUCCESSFUL_PAYMENT)
 async def successful_payment(message: types.Message, bot: Bot):
-    await bot.send_message(message.from_user.id, f"Спасибо! Оплата {message.successful_payment.total_amount // 100} {message.successful_payment.currency} прошла успешно!")
+    await bot.send_message(message.from_user.id, f"Спасибо! Оплата {message.successful_payment.total_amount // 100} {message.successful_payment.currency} прошла успешно! 📠\n\n\
+Наши менеджеры уже начали обрабатывать заявку, пожалуйста, заполните форму ниже👇", reply_markup=form_btn())
