@@ -92,6 +92,6 @@ async def pre_checkout_query(pre_checkout_query: types.PreCheckoutQuery, bot: Bo
     await bot.answer_pre_checkout_query(pre_checkout_query.id, ok=True)
     
     
-@kassa.message(F.content_types == ContentType.SUCCESSFUL_PAYMENT)
+@kassa.message(F.content_type == ContentType.SUCCESSFUL_PAYMENT)
 async def successful_payment(message: types.Message, bot: Bot):
     await bot.send_message(message.from_user.id, f"Спасибо! Оплата {message.successful_payment.total_amount // 100} {message.successful_payment.currency} прошла успешно!")

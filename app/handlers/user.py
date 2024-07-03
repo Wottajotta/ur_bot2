@@ -5,7 +5,6 @@ from aiogram import Router, F
 from aiogram.filters import Command, CommandStart
 from aiogram.types import FSInputFile
 from aiogram import types
-from app.kassa.kassa import order_consult, pre_checkout_query, successful_payment
 from app.texts.text_for_db import QU1, QU2, START
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
@@ -18,7 +17,7 @@ from config import PATH_TO_CONSULT, PATH_TO_ISK, PATH_TO_LETTER
 
 user = Router()
 
-@user.message(CommandStart)
+@user.message(CommandStart())
 async def start_cmd(message: types.Message):
     await message.answer(START, reply_markup=start_kb)
     
