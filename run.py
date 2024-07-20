@@ -10,13 +10,14 @@ from aiogram.enums import ParseMode
 
 from app.handlers.user import user
 from app.kassa.kassa import kassa
+from app.handlers.form import form
 
 
 async def main():
     load_dotenv()
     bot = Bot(token=os.getenv('TOKEN'), default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     dp = Dispatcher()
-    dp.include_routers(kassa,user)
+    dp.include_routers(kassa,user, form)
     
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
